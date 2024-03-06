@@ -1,3 +1,5 @@
+import { Point } from '../primitives/point.js';
+
 // Определение точки ближайшей к позиции loc.
 function getNearestPoint(loc, points, threshold = Number.MAX_SAFE_INTEGER) {
   let minDist = Number.MAX_SAFE_INTEGER;
@@ -13,7 +15,19 @@ function getNearestPoint(loc, points, threshold = Number.MAX_SAFE_INTEGER) {
 }
 
 function distance(p1, p2) {
-    return Math.hypot(p1.x - p2.x, p1.y - p2.y);
+  return Math.hypot(p1.x - p2.x, p1.y - p2.y);
 }
 
-export { getNearestPoint }
+function add(p1, p2) {
+  return new Point(p1.x + p2.x, p1.y + p2.y);
+}
+
+function subtract(p1, p2) {
+  return new Point(p1.x - p2.x, p1.y - p2.y);
+}
+
+function scale(p, scaler) {
+  return new Point(p.x * scaler, p.y * scaler);
+}
+
+export { getNearestPoint, add, subtract, scale };

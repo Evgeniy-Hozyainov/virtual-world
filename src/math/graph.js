@@ -1,7 +1,23 @@
+import { Point } from '../primitives/point.js';
+import { Segment } from '../primitives/segment.js';
+
 class Graph {
   constructor(points = [], segments = []) {
     this.points = points;
     this.segments = segments;
+  }
+
+  static load(info) {
+    const points = info.points.map((i) => new Point(i.x, i.y));
+    const segments = info.segments.map(
+      (i) =>
+        new Segment(
+          points.find((p) => p.equals(i.p1)),
+          points.find((p) => p.equals(i.p2))
+        )
+    );
+
+    return new Graph(points, segments);
   }
 
   addPoint(point) {
@@ -37,17 +53,17 @@ class Graph {
   }
 
   tryAddSegment(seg) {
-    if (!this.containsSegment(seg) && !seg.p1.equals(seg.p2))  {
+    if (!this.containsSegment(seg) && !seg.p1.equals(seg.p2)) {
       this.addSegment(seg);
       return true;
     }
-    return false;    
+    return false;
   }
 
   removeSegment(seg) {
     this.segments.splice(this.segments.indexOf(seg), 1);
   }
-  
+
   getSegmentsWithPoint(point) {
     const segs = [];
     for (const seg of this.segments) {
