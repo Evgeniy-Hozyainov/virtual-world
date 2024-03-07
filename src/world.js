@@ -2,12 +2,13 @@ import { Envelope } from './primitives/envelope.js';
 import { Polygon } from './primitives/polygon.js';
 
 class World {
-  constructor(graph, roadWidth = 100, roadRoundness = 3) {
+  constructor(graph, roadWidth = 100, roadRoundness = 10) {
     this.graph = graph;
     this.roadWidth = roadWidth;
     this.roadRoundness = roadRoundness;
 
     this.envelopes = [];
+    this.roadBorders = [];
 
     this.generate();
   }
@@ -20,12 +21,18 @@ class World {
       );
     }
 
-    Polygon.multiBreak(this.envelopes.map((e) => e.poly));
+    this.roadBorders = Polygon.union(this.envelopes.map((e) => e.poly));
   }
 
   draw(ctx) {
     for (const env of this.envelopes) {
       env.draw(ctx, { fill: '#BBB', stroke: '#BBB', lineWidth: 15 });
+    }
+    for (const seg of this.graph.segments) {
+      seg.draw(ctx, { color: 'white', width: 4, dash: [10, 10] });
+    }
+    for (const seg of this.roadBorders) {
+      seg.draw(ctx, { color: 'white', width: 4 });
     }
   }
 }
