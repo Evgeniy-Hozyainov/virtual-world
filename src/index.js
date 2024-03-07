@@ -1,10 +1,10 @@
 import './styles.css';
 
 import { Graph } from './math/graph.js';
-import { Point } from './primitives/point.js';
-import { Segment } from './primitives/segment.js';
 import { GraphEditor } from './graphEditor.js';
 import { Viewport } from './viewport.js';
+import { Envelope } from './primitives/envelope.js';
+import { World } from './world.js';
 
 const btnDeleteAll = document.querySelector('.button__delete-all');
 const btnSave = document.querySelector('.button__save');
@@ -23,6 +23,9 @@ const graphString = localStorage.getItem('graph');
 const graphInfo = graphString ? JSON.parse(graphString) : null;
 
 const graph = graphInfo ? Graph.load(graphInfo) : new Graph();
+
+const world = new World(graph);
+
 const viewport = new Viewport(myCanvas);
 const graphEditor = new GraphEditor(viewport, graph);
 
@@ -30,6 +33,8 @@ animate();
 
 function animate() {
   viewport.reset();
+  world.generate();
+  world.draw(ctx);
   graphEditor.display();
   requestAnimationFrame(animate);
 }
