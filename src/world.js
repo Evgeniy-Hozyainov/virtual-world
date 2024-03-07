@@ -30,9 +30,6 @@ class World {
     for (const env of this.envelopes) {
       env.draw(ctx, { fill: '#BBB', stroke: '#BBB', lineWidth: 15 });
     }
-    for (const int of this.intersections) {
-      int.draw(ctx, { color: 'red', size: 6 });
-    }
   }
 }
 
